@@ -7,13 +7,21 @@
 </head>
 <body>
     <div class="container">
-        <h1>MobileNetV2 Image Classification</h1>
+        <h1>Классификация изображений с помощью модели MobileNetV2</h1>
         
         <div class="upload-section">
-            <input type="file" id="imageUpload" accept="image/*">
-            <button id="loadSample">Load Sample Image</button>
-            <input type="text" id="imageUrl" placeholder="Or paste image URL">
-            <button id="loadFromUrl">Load from URL</button>
+            <!-- Первая строка -->
+            <div class="upload-row">
+                <label for="imageUpload">Загрузить изображение с устройства:</label>
+                <input type="file" id="imageUpload" accept="image/*">
+            </div>
+            
+            <!-- Вторая строка -->
+            <div class="upload-row">
+                <button id="loadSample">Загрузить тестовое изображение</button>
+                <input type="text" id="imageUrl" placeholder="Вставить ссылку...">
+                <button id="loadFromUrl">Загрузить URL</button>
+            </div>
         </div>
         
         <div class="preview-section">
