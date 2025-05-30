@@ -116,7 +116,7 @@ async function processImage(image) {
     } catch (error) {
         console.error('Processing error:', error);
         document.getElementById('results').innerHTML = 
-            '<p class="error">Error: ${error.message}</p>';
+            `<p class="error">Error: ${error.message}</p>`;
     }
 }
 
