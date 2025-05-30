@@ -115,8 +115,7 @@ async function processImage(image) {
         displayPredictions(predictions);
     } catch (error) {
         console.error('Processing error:', error);
-        document.getElementById('results').innerHTML = 
-            `<p class="error">Error: ${error.message}</p>`;
+        document.getElementById('results').innerHTML = `<p class="error">Error: ${error.message}</p>`;
     }
 }
 
