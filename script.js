@@ -123,7 +123,7 @@ function preprocessImage(image) {
     canvas.width = 224;
     canvas.height = 224;
     
-    // Рисуем изображение с ресайзом и обрезкой (центрированной)
+    // Рисуем изображение с ресайзом (центрированная обрезка)
     const aspect = image.width / image.height;
     let drawWidth, drawHeight, offsetX, offsetY;
     
@@ -139,21 +139,25 @@ function preprocessImage(image) {
         offsetY = (224 - drawHeight) / 2;
     }
     
-    ctx.fillStyle = 'rgb(128, 128, 128)'; // Серый фон для областей padding
+    ctx.fillStyle = 'rgb(128, 128, 128)'; // Серый фон для padding
     ctx.fillRect(0, 0, 224, 224);
     ctx.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
     
-    // Получаем пиксели
+    // Получаем пиксели в формате NHWC
     const imageData = ctx.getImageData(0, 0, 224, 224);
     const data = imageData.data;
-    const tensor = new Float32Array(3 * 224 * 224);
+    const tensor = new Float32Array(224 * 224 * 3);
     
-    // MobileNetV2 ожидает нормализацию [0,1] без дополнительной обработки
-    // (в отличие от оригинального MobileNet)
-    for (let i = 0; i < data.length; i += 4) {
-        tensor[i / 4] = data[i] / 255.0;         // R
-        tensor[i / 4 + 224 * 224] = data[i + 1] / 255.0;   // G
-        tensor[i / 4 + 224 * 224 * 2] = data[i + 2] / 255.0; // B
+    // Преобразование RGB → NHWC (нормализация [0, 1])
+    for (let h = 0; h < 224; h++) {
+        for (let w = 0; w < 224; w++) {
+            const pixelOffset = (h * 224 + w) * 3;
+            const srcOffset = (h * 224 + w) * 4;
+            
+            tensor[pixelOffset] = data[srcOffset] / 255.0;     // R
+            tensor[pixelOffset + 1] = data[srcOffset + 1] / 255.0; // G
+            tensor[pixelOffset + 2] = data[srcOffset + 2] / 255.0; // B
+        }
     }
     
     return tensor;
