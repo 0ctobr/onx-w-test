@@ -98,13 +98,16 @@ async function processImage(image) {
         });
         
         // Препроцессинг
-        const tensor = preprocessImage(image);
+        const tensorData = preprocessImage(image);
         
-        // Запуск модели
-        const inputTensor = new ort.Tensor('float32', tensor, [1, 3, 224, 224]);
+        // Создаем тензор с правильными размерностями [1, 224, 224, 3]
+        const inputTensor = new ort.Tensor('float32', tensorData, [1, 224, 224, 3]);
+        
+        // Получаем имена входов и выходов
         const inputName = session.inputNames[0];
         const outputName = session.outputNames[0];
         
+        // Запуск модели
         const outputs = await session.run({ [inputName]: inputTensor });
         const predictions = outputs[outputName].data;
         
@@ -112,7 +115,7 @@ async function processImage(image) {
         displayPredictions(predictions);
     } catch (error) {
         console.error('Processing error:', error);
-        document.getElementById('results').innerHTML = `<p class="error">Error: ${error.message}</p>`;
+        document.getElementById('results').innerHTML = <p class="error">Error: ${error.message}</p>;
     }
 }
 
