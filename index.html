@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MobileNetV2 Browser Demo</title>
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>MobileNetV2 Image Classification</h1>
+        
+        <div class="upload-section">
+            <input type="file" id="imageUpload" accept="image/*">
+            <button id="loadSample">Load Sample Image</button>
+            <input type="text" id="imageUrl" placeholder="Or paste image URL">
+            <button id="loadFromUrl">Load from URL</button>
+        </div>
+        
+        <div class="preview-section">
+            <img id="preview" width="300" height="300">
+            <div id="results">
+                <p>Select an image to see predictions</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
